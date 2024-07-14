@@ -1,6 +1,7 @@
 import { NodeData } from "../utils/types"
 import styles from "./Node.module.css"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, FormEventHandler, keyboardEventHandler } from "react"
+import { nanoid } from "nanoid"
 
 type BasicNodeProps = {
   node: NodeData;
@@ -46,12 +47,38 @@ const handleClick = () => {
   updateFocusedIndex(index)
 }
 
-  return
+const onKeyDown: keyboardEventHandler<HTMLDivElement> = (event) => {
+  const target = event.target as HTMLDivElement;
+  if (event.key === "Enter") {
+    event.preventDefault();
+    if (target.textContent?.[0] === "/") {
+      return;
+    }
+    addNode({type: node.type, value: "", id: nanoid()}, index + 1)
+    updateFocusedIndex(index + 1)
+  }
+  if (event.key === "Backspace") {
+    if (target.textContent?.length === 0) {
+      event.preventDefault();
+      removeNodeByIndex(index);
+      updateFocusedIndex(index - 1);
+    } else if (window?.getSelection()?.anchorOffset === 0) {
+      event.preventDefault();
+      removeNodeByIndex(index - 1);
+      updateFocusedIndex(index - 1);
+    }
+  }
+}
+
+  return (
     <div
     onInput={handleInput}
+    onClick={handleClick}
+    onKeyDown={onKeyDown}
     ref={nodeRef}
     contentEditable
     suppressContentEditableWarning
+    className={styles.node}
     />
   )
 }
