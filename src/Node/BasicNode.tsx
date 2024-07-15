@@ -1,6 +1,7 @@
 import { NodeData } from "../utils/types"
 import styles from "./Node.module.css"
 import { useRef, useEffect, FormEventHandler, keyboardEventHandler } from "react"
+// we need nanoid to generate id that is unlikely to collide with other ids -> unique id (ex."V1StGXR8_Z5jdHi6B-myT")
 import { nanoid } from "nanoid"
 
 type BasicNodeProps = {
