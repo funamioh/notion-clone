@@ -3,15 +3,13 @@ import styles from "./Node.module.css"
 import { useRef, useEffect, FormEventHandler, keyboardEventHandler } from "react"
 // we need nanoid to generate id that is unlikely to collide with other ids -> unique id (ex."V1StGXR8_Z5jdHi6B-myT")
 import { nanoid } from "nanoid"
+import { useAppState } from "../state/AppStateContext"
 
 type BasicNodeProps = {
   node: NodeData;
   updateFocusedIndex(index:number): void;
   isFocused: boolean;
   index: number;
-  addNode(node: NodeData, index: number): void;
-  removeNodeByIndex(index: number): void;
-  changeNodeValue(index: number, value: string): void;
 }
 
 export const BasicNode = ({
@@ -19,11 +17,10 @@ export const BasicNode = ({
   updateFocusedIndex,
   isFocused,
   index,
-  addNode,
-  removeNodeByIndex,
-  changeNodeValue
 }: BasicNodeProps) => {
   const nodeRef = useRef<HTMLDivElement>(null)
+
+  const { changeNodeValue, removeNodeByIndex, addNode } = useAppState()
 
   useEffect(() => {
     if (isFocused) {

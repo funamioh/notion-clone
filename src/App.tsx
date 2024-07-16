@@ -1,11 +1,17 @@
 import './App.css'
 import { Page } from './Page/Page'
+import { AppStateProvider } from "./state/AppStateContext"
+import { createPage } from "./utils/createPage"
+
+const initialState = createPage()
 
 function App() {
 
-  return (
+    return (
+    <AppStateProvider initialState={initialState}>
       <Page />
-  )
+      </AppStateProvider>
+    )
 }
 
 export default App
